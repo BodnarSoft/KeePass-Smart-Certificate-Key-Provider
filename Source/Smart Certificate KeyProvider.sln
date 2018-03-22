@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2011
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Smart Certificate KeyProvider", "Smart Certificate KeyProvider\Smart Certificate KeyProvider.csproj", "{1FBC0E45-0C76-4346-967B-10D681FB712E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Smart Certificate KeyProvider", "Smart Certificate KeyProvider.csproj", "{1FBC0E45-0C76-4346-967B-10D681FB712E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
