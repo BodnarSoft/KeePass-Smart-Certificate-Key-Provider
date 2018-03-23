@@ -36,6 +36,8 @@
         public override void Terminate()
         {
             Host.KeyProviderPool.Remove(SmartCertificateKeyProvider);
+
+            SmartCertificateKeyProvider.Dispose();
             SmartCertificateKeyProvider = null;
 
             base.Terminate();
