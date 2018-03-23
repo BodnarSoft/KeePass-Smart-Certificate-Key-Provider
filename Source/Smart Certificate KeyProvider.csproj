@@ -51,9 +51,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\StringExtension.cs" />
     <Compile Include="SmartCertificateKeyProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SmartCertificateKeyProviderPluginExt.cs" />
+    <Compile Include="UsedCertificateCache.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

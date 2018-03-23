@@ -18,19 +18,43 @@
 
         #endregion
 
+        #region Private static properties
+
+        private static X509Certificate2[] UserCertificates
+        {
+            get
+            {
+                var myStore = new X509Store(StoreName.My, StoreLocation.CurrentUser);
+                myStore.Open(OpenFlags.ReadOnly);
+
+                var certificates = myStore.Certificates.Cast<X509Certificate2>()
+                                          .Where(c => c.HasPrivateKey)
+                                          .ToArray();
+
+                myStore.Close();
+
+                return certificates;
+            }
+        }
+
+        #endregion
+
         #region Constructors
 
         public SmartCertificateKeyProvider(IPluginHost host)
         {
             Host = host;
+            CertificateCache = new UsedCertificateCache();
+
             Host.MainWindow.FileOpened += OnDatabaseOpened;
+            DataToSign = Encoding.UTF8.GetBytes(DefaultSignatureDataText);
         }
 
         #endregion
 
         #region Public properties
 
-        public override bool DirectKey => true;
+        public override bool DirectKey => true; // DO NOT CHANGE THIS!!!!
 
         public override bool GetKeyMightShowGui => true;
 
@@ -42,6 +66,10 @@
 
         #region Private properties
 
+        private UsedCertificateCache CertificateCache { get; }
+
+        private byte[] DataToSign { get; }
+
         private IPluginHost Host { get; }
 
         #endregion
@@ -52,18 +80,28 @@
         {
             Host.MainWindow.FileOpened -= OnDatabaseOpened;
 
+            CertificateCache.Dispose();
+
             GC.SuppressFinalize(this);
         }
 
-        public override byte[] GetKey(KeyProviderQueryContext ctx)
+        public override byte[] GetKey(KeyProviderQueryContext keyProviderQueryContext)
         {
-            var title = "Available certificates";
-            var message = "Select certificate to use it for encryption on your KeePass database.";
+            X509Certificate2 certificate = null;
 
-            var x509Certificates = X509Certificate2UI.SelectFromCollection(GetCertificates(), title, message, X509SelectionFlag.SingleSelection)
-                                                     .Cast<X509Certificate2>();
+            if (!keyProviderQueryContext.CreatingNewKey)
+                certificate = GetCertificateFromCache(keyProviderQueryContext.DatabasePath);
 
-            var certificate = x509Certificates.FirstOrDefault();
+            if (certificate == null)
+            {
+                var title = "Available certificates";
+                var message = "Select certificate to use it for encryption on your KeePass database.";
+
+                var x509Certificates = X509Certificate2UI.SelectFromCollection(new X509Certificate2Collection(UserCertificates), title, message, X509SelectionFlag.SingleSelection)
+                                                         .Cast<X509Certificate2>();
+
+                certificate = x509Certificates.FirstOrDefault();
+            }
 
             if (certificate == null)
                 MessageService.ShowInfo("No valid certificate selected!");
@@ -73,8 +111,9 @@
                 {
                     if (certificate.PrivateKey is RSA rsa)
                     {
-                        var dataToSign = Encoding.UTF8.GetBytes(DefaultSignatureDataText);
-                        return rsa.SignData(dataToSign, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
+                        CertificateCache.StoreCachedValue(keyProviderQueryContext.DatabasePath, certificate.Thumbprint);
+
+                        return rsa.SignData(DataToSign, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1); // DO NOT CHANGE THIS!!!!;
                     }
                 }
                 catch (Exception ex)
@@ -84,29 +123,34 @@
             }
 
             return null;
-
-            X509Certificate2Collection GetCertificates()
-            {
-                var myStore = new X509Store(StoreName.My, StoreLocation.CurrentUser);
-                myStore.Open(OpenFlags.ReadOnly);
-
-                var certificates = myStore.Certificates.Cast<X509Certificate2>()
-                                          .Where(c => c.HasPrivateKey)
-                                          .ToArray();
-
-                myStore.Close();
-
-                return new X509Certificate2Collection(certificates);
-            }
         }
 
         #endregion
 
         #region Private methods
 
+        private X509Certificate2 GetCertificateFromCache(string databasePath)
+        {
+            try
+            {
+                var thumbprint = CertificateCache.GetCachedValue(databasePath);
+
+                if (thumbprint != null)
+                    return UserCertificates.SingleOrDefault(c => c.Thumbprint.Equals(thumbprint));
+            }
+            catch (Exception ex)
+            {
+                MessageService.ShowWarning($"Selected certificate can't be used!\nReason: {ex.Message}.");
+            }
+
+            return null;
+        }
+
         private void OnDatabaseOpened(object sender, FileOpenedEventArgs args)
         {
             var path = args.Database.IOConnectionInfo.Path;
+
+            CertificateCache.SetCachedItemAsValid(path);
         }
 
         #endregion
