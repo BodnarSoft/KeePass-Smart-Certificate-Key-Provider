@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("BodnarSoft")]
 [assembly: AssemblyProduct("KeePass Plugin")]
-[assembly: AssemblyCopyright("© 2018 BodnarSoft")]
+[assembly: AssemblyCopyright("Copyright 2018, BodnarSoft")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

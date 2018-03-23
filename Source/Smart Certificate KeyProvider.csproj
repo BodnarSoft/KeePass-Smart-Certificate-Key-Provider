@@ -48,7 +48,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SmartCertificateKeyProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SmartCertificateKeyProviderPluginExt.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
