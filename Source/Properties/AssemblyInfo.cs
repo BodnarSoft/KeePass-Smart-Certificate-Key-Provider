@@ -1,16 +1,15 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Smart Certificate KeyProvider")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("KeePass Smart Certificate KeyProvider")]
+[assembly: AssemblyDescription("This plugin uses X.509 certificate from your personal certificate storage to encrypt KeePass database with generated SHA1 hash from certificate's signature. It also allow to use certificates that are on your Smart Card. It is possible to use Secure Desktop feature (needs to be enabled in Options - Security tab) to avoid Keyloggers.\nDON'T LOOSE YOUR CERTIFICATE OR YOU WILL NOT BE ABLE TO OPEN YOUR DATABASE.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Smart Certificate KeyProvider")]
-[assembly: AssemblyCopyright("Copyright ©  2018")]
+[assembly: AssemblyCompany("BodnarSoft")]
+[assembly: AssemblyProduct("KeePass Plugin")]
+[assembly: AssemblyCopyright("Copyright 2018, BodnarSoft")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -21,16 +20,3 @@ using System.Runtime.InteropServices;
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("1fbc0e45-0c76-4346-967b-10d681fb712e")]
-
-// Version information for an assembly consists of the following four values:
-//
-//      Major Version
-//      Minor Version
-//      Build Number
-//      Revision
-//
-// You can specify all the values or you can default the Build and Revision Numbers
-// by using the '*' as shown below:
-// [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
