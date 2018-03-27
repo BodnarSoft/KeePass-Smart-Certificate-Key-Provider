@@ -30,7 +30,7 @@ It is pretty simple. The plugin will use X.509 certificate to digitally sign som
 The plugin doesn't work with private key of the certificate directly, just uses API to generate hashed / encrypted digital signature. 
 
 ```C#
-rsa.SignData("some text ...", HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
+rsa.SignData("some text ...", HashAlgorithmName.SHA1, RSASignaturePadding.Pkcs1);
 ```
 
 >Also if you use Smart Card, you can't access the private key of the certificate by standard API, because you are not allowed to!

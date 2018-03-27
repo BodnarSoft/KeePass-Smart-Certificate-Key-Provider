@@ -54,7 +54,7 @@
 
         #region Public properties
 
-        public override bool DirectKey => true; // DO NOT CHANGE THIS!!!!
+        public override bool DirectKey => false; // DO NOT CHANGE THIS!!!!
 
         public override bool GetKeyMightShowGui => true;
 
@@ -113,7 +113,8 @@
                     {
                         CertificateCache.StoreCachedValue(keyProviderQueryContext.DatabasePath, certificate.Thumbprint);
 
-                        return rsa.SignData(DataToSign, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1); // DO NOT CHANGE THIS!!!!;
+                        // Using HashAlgorithmName.SHA1 for backward compatibility
+                        return rsa.SignData(DataToSign, HashAlgorithmName.SHA1, RSASignaturePadding.Pkcs1); // DO NOT CHANGE THIS!!!!;
                     }
                 }
                 catch (Exception ex)
