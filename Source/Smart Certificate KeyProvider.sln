@@ -7,6 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Smart Certificate KeyProvid
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{ABF453A9-67CF-45F1-8F1D-C2C1218EB8CC}"
 	ProjectSection(SolutionItems) = preProject
+		..\PluginVersion.txt = ..\PluginVersion.txt
 		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
