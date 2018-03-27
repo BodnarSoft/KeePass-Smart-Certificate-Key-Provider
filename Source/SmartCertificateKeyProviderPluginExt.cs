@@ -13,6 +13,12 @@
 
         #endregion
 
+        #region Public properties
+
+        public override string UpdateUrl => "https://github.com/BodnarSoft/KeePass-Smart-Certificate-Key-Provider/blob/master/PluginVersion.txt";
+
+        #endregion
+
         #region Private properties
 
         private IPluginHost Host { get; set; }
