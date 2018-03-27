@@ -10,7 +10,7 @@ What the plugin can do:
 * remembers last used certificate for a particular KeePass database, so you don't have to choose it during each unlock of the database
 
 ## Compatibility
-It should be compatible with any Smart Card, but it was tested with: 
+It should be compatible with any Smart Card, but it was tested only with: 
 * [YUBIKEY NEO](https://www.yubico.com/products/yubikey-hardware/yubikey-neo/)
 * [Gold Key Tokens](http://www.goldkey.com/goldkey-security-token/)
 
@@ -30,26 +30,22 @@ It is pretty simple. The plugin will use X.509 certificate to digitally sign som
 The plugin doesn't work with private key of the certificate directly, just uses API to generate hashed / encrypted digital signature. 
 
 ```C#
-using (var sha1Managed = new SHA1Managed())
-{
-    signData = rsa.SignData(dataToSign, sha1Managed);
-}
+rsa.SignData("some text ...", HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
 ```
 
 >Also if you use Smart Card, you can't access the private key of the certificate by standard API, because you are not allowed to!
 
-You can check for more details http://www.paradigm.ac.uk/workbook/metadata/authenticity-signatures.html
+You can check for more details about digital RSA signatures on internet like http://www.paradigm.ac.uk/workbook/metadata/authenticity-signatures.html
 
 ## Plugin installation
-1. download this repository
-2. build solution
-3. close running KeePass application
-4. copy SmartRsaCertificateKeyProviderPlugin.dll into KeePass directory (*by default C:\Program Files (x86)\KeePass Password Safe 2*)
-5. start KeePass application
-6. in Open database dialog you will see Key File dropdown, where you can select **Smart RSA Certificate Key Provider**. This also applies for creating or updating KeePass database
+1. download lates plugin from [Releases](../../releases/latest)
+2. close running KeePass application
+3. copy SmartCertificateKeyProviderPlugin.dll into KeePass directory (*by default C:\Program Files (x86)\KeePass Password Safe 2*)
+4. start KeePass application
+5. in Open database dialog you will see Key File dropdown, where you can select **Smart Certificate Key Provider**. This also applies for creating or updating KeePass database
 
->Right now, there is no direct plugin download option, you have to be able to compile the plugin by your self!  
->**But it will change in the future. :)**
+>Plugin uses cache that stores information about selected certificate to particular opened database, so you don't have to select same certicate again after database lock. 
+>This cache is only in protected memory so after closing KeePass apllication, the cache is lost.
 
 ## Development requirements 
 The plugin is written in Visual Studio 2017 with C# and Microsoft.NET Framework 4.7.1.  

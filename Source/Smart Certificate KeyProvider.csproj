@@ -73,4 +73,15 @@
     </PropertyGroup>
     <Error Condition="!Exists('packages\GitVersionTask.3.6.5\build\dotnet\GitVersionTask.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\GitVersionTask.3.6.5\build\dotnet\GitVersionTask.targets'))" />
   </Target>
+  <Target Name="WriteVersionFile" AfterTargets="Build">
+    <WriteLinesToFile
+      File="$(SolutionDir)..\PluginVersion.txt"
+      Lines="$(TargetName):$(GitVersion_MajorMinorPatch)"
+      Overwrite="true"
+      Encoding="Unicode"/>
+  </Target>
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
 </Project>
