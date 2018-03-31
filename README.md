@@ -51,5 +51,8 @@ You can check for more details about digital RSA signatures on internet like htt
 The plugin is written in Visual Studio 2017 with C# and Microsoft.NET Framework 4.7.1.  
 The KeePass application is included in repository **Dependencies** folder so the project can be build without installation of the KeePass.
 
+## Documentation
+You can find more details on [Wiki](../../wiki) pages.
+
 ## License
 This plugin is under [MIT](LICENSE) license.
