@@ -27,9 +27,18 @@
                 var myStore = new X509Store(StoreName.My, StoreLocation.CurrentUser);
                 myStore.Open(OpenFlags.ReadOnly);
 
-                var certificates = myStore.Certificates.Cast<X509Certificate2>()
-                                          .Where(c => c.HasPrivateKey)
-                                          .ToArray();
+                X509Certificate2[] certificates = myStore.Certificates.Cast<X509Certificate2>()
+                                                        .Where(c => c.HasPrivateKey)
+                                                        .ToArray();
+
+                if (System.IO.File.Exists("X509_thumbprint.txt"))
+                {
+                    System.IO.StreamReader file = new System.IO.StreamReader(@"X509_thumbprint.txt");
+                    string thumbprint = file.ReadLine();
+                    file.Close();
+                    X509Certificate2Collection matching_certificates = myStore.Certificates.Find(X509FindType.FindByThumbprint, thumbprint, true);
+                    certificates = matching_certificates.Cast<X509Certificate2>().ToArray();
+                }
 
                 myStore.Close();
 
