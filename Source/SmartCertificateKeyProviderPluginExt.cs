@@ -15,7 +15,7 @@
 
         #region Public properties
 
-        public override string UpdateUrl => "https://raw.githubusercontent.com/BodnarSoft/KeePass-Smart-Certificate-Key-Provider/master/PluginVersion.txt";
+        public override string UpdateUrl => "https://raw.githubusercontent.com/jimmyswimmy/KeePass-Smart-Certificate-Key-Provider/master/PluginVersion.txt";
 
         #endregion
 
